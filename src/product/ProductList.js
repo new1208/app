@@ -2,15 +2,16 @@ import ProductAdd from './ProductAdd'
 import { Dialog,Box, Fab, IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AppMenu from '../ui/AppMenu';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import {AuthContext, STATUS} from '../account/AuthContext';
 import { getFirestore } from "firebase/firestore";
 import { getApps, initializeApp } from 'firebase/app';
 import {collection, getDocs} from "firebase/firestore";
 import CircularProgress from '@mui/material/CircularProgress';
 import { List, ListItem, ListItemText } from '@mui/material';
 import { deleteDoc, doc} from '@firebase/firestore';
-
 import {config} from '../settings/firebaseConfig';
+
 
 
 export default function ProductList() {
@@ -29,16 +30,19 @@ const [deleted, setDeleted] = useState(false);
     {desc:"iPhone X", price:30000}
    ]);
 
-   const [currentProduct, setcurrentProduct] = useState({desc:"",price:0});
-
+ //  const [currentProduct, setcurrentProduct] = useState({desc:"",price:0});
+   const authContext = useContext(AuthContext);
    useEffect(()=>{
     async function readData() {
       setIsLoading(true);
       const querySnapshot = await getDocs(collection(db, "product"));
       const temp = [];
       querySnapshot.forEach((doc) => {
-        temp.push({id:doc.id, desc:doc.data().desc, price:doc.data().price});     
+        console.log(doc.id, " => ", doc.data());
+        temp.push({desc:doc.data().desc, price:doc.data().price});     
       });
+
+      console.log(temp);
 
       setProducts([...temp]);
       setIsLoading(false);
@@ -83,21 +87,24 @@ const ProductListComponent = function (){
           <DeleteIcon />
         </IconButton>
         <Dialog onClose={handleClose} open={open}>
-        <ProductAdd update={insert} product={product}/>
+        <ProductAdd update={insert} product={product} close={handleClose}/>
         </Dialog>;
-
-        <Box sx={{ '& > :not(style)': { m: 1 } }}>
+        
+      </ListItem>)
+      }
+      {(authContext.status===STATUS.toSignIn)?
+        <Box></Box>:
+          <Box sx={{width:'100vw',textAlign:"center"}}>
           <Fab size="medium" color="secondary" aria-label="add" onClick={()=>setOpen(true)}>
-            +
+              +
             </Fab>
             </Box>
-        
-      </ListItem>)}
+            }
+            
     </List>
+    
   )
 }
-
-
 
 return (
 

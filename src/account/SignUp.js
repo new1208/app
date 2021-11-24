@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Button, TextField} from '@mui/material';
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword,updateProfile } from "firebase/auth";
 import {config} from '../settings/firebaseConfig';
+import {AuthContext, STATUS} from '../account/AuthContext';
 
 export default function SignUp(props) {
     if (getApps().length===0) {
@@ -11,6 +12,8 @@ export default function SignUp(props) {
 
   const [account, setAccount] = useState({email:"",password:"", displayName:""});
   const [message, setMessage] = useState("");
+  const authContext = useContext(AuthContext);
+
   const handleChange = function(e){
     setAccount({...account,[e.target.name]:e.target.value})
   }
@@ -25,6 +28,7 @@ export default function SignUp(props) {
             await updateProfile(auth.currentUser,{displayName: account.displayName});
           }
           setMessage("");
+          authContext.setStatus(STATUS.toSignIn);
         }
         catch(error){
           setMessage(""+error);
@@ -32,7 +36,7 @@ export default function SignUp(props) {
     
       }
       const changeStatus = function(){
-        props.setStatus("signIn");
+        authContext.setStatus(STATUS.toSignIn);
       }
 
   return(

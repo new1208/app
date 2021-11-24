@@ -17,13 +17,13 @@ export default function ProductAdd(props) {
       setMessage("");
       if (action === "新增"){
         let docRef =  await addDoc(collection(db, "product"),{
-      desc:product.desc,
-      price:parseInt(product.price)
+        desc:product.desc,
+        price:parseInt(product.price)
       });
     console.log(docRef.id);
   }
   else {
-    await setDoc(doc(db,"product",product.id),{
+    await setDoc(doc(db,"product",product),{
       desc:product.desc,
       price:parseInt(product.price)
     });
@@ -37,8 +37,8 @@ export default function ProductAdd(props) {
     }
     props.close();
   }
-    props.update(product);
-    addDoc(product)
+    //props.update(product);
+    //addDoc(product)
   
 
   return (
