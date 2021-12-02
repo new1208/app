@@ -13,7 +13,6 @@ import { deleteDoc, doc} from '@firebase/firestore';
 import {config} from '../settings/firebaseConfig';
 
 
-
 export default function ProductList() {
   //const app = initializeApp(firebaseConfig);
   if (getApps().length===0) {

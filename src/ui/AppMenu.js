@@ -20,7 +20,7 @@ export default function LabTabs() {
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="product" value="1" component={Link} to='/product' />
             <Tab label="employee" value="2" component={Link} to='/employee'/>
-            <Tab label="Hello" value="3" component={Link} to='/new'/>
+            <Tab label="ImageUpload" value="3" component={Link} to='/ImageUpload'/>
           </TabList>
         </Box>
         </TabContext>

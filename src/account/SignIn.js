@@ -13,7 +13,6 @@ export default function SignIn(props) {
   const [account, setAccount] = useState({email:"",password:"", displayName:""});
   const [message, setMessage] = useState("");
   const authContext = useContext(AuthContext);
-
   const handleChange = function(e){
     setAccount({...account,[e.target.name]:e.target.value})
 
