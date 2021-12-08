@@ -3,12 +3,20 @@ import { getStorage, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { listAll } from "firebase/storage";
 import {Box, Input} from '@mui/material';
 import {ImageList, ImageListItem} from '@mui/material';
+import AppMenu from '../ui/AppMenu';
+import { getApps, initializeApp } from 'firebase/app';
+import {config} from '../settings/firebaseConfig';
+
 
 export default function ImageUpload() {
+  if (getApps().length===0) {
+    initializeApp(config);
+  }
   const storage = getStorage();
   const [message, setMessage] = useState("");
   const [images, setImages] = useState([]);
   const [loaded, setLoaded] = useState(0); //add 1 when loaded
+
 
   const handleUpload = async function(e){
     console.log(e.target.files[0]);
@@ -45,7 +53,7 @@ export default function ImageUpload() {
       }
 
       catch(error){
-        setMessage(error);
+        setMessage("尚未登入");
         console.log(error);
       }
     }
@@ -55,6 +63,7 @@ export default function ImageUpload() {
 
   return (
     <Box>
+      <AppMenu/>
       <Input type="file" accept="image/x-png,image/jpeg" onChange={handleUpload}/>
       <br/>{message}
       <ImageList sx={{ width: '100%', height: '100%' }} cols={2} rowHeight={164}>
