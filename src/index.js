@@ -1,34 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import './index.css';
+import './index.css';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AppRouter from './AppRouter';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#ff9800',
-    },
-
-    secondary: {
-      main: '#ba68c8',
-    },
-
-    dark:{
-      main: '#03a9f4',
-    }
-  },
-});
+import { Provider } from "react-redux";
+import store from "./components/redux/store";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <AppRouter/>
-    </ThemeProvider>
+  <Provider store={store}>
+     <App />
+  </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
+serviceWorkerRegistration.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
